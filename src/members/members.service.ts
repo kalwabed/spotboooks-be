@@ -5,16 +5,16 @@ import { PrismaService } from 'nestjs-prisma';
 
 @Injectable()
 export class MembersService {
-  constructor(private readonly prisma: PrismaService) { }
+  constructor(private readonly prisma: PrismaService) {}
 
   async create(data: CreateMemberDto) {
     return await this.prisma.members.create({
-      data
-    })
+      data,
+    });
   }
 
-  findAll() {
-    return `This action returns all members`;
+  async findAll() {
+    return await this.prisma.members.findMany();
   }
 
   findOne(id: number) {

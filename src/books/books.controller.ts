@@ -20,7 +20,7 @@ import type { UpdateBookDto } from './dto/update-book.dto';
 @ApiTags('Books')
 @Controller('books')
 export class BooksController {
-  constructor(private readonly booksService: BooksService) { }
+  constructor(private readonly booksService: BooksService) {}
 
   @ApiOperation({
     summary: 'Create a new group',

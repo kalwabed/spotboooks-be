@@ -20,10 +20,21 @@ model Books {
   cover_image String
   point       Int
   tags        String[]
+  orders      Orders[]
 }
 
 model Members {
-  id       String @unique() @default(cuid())
+  id       String   @unique() @default(cuid())
   username String
-  point    Int    @default(200)
+  point    Int      @default(200)
+  orders   Orders[]
+}
+
+model Orders {
+  id        String  @unique() @default(cuid())
+  qty       Int     @default(1)
+  book_id   String
+  book      Books   @relation(fields: [book_id], references: [id])
+  member_id String
+  member    Members @relation(fields: [member_id], references: [id])
 }
