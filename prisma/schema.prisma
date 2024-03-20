@@ -21,3 +21,9 @@ model Books {
   point       Int
   tags        String[]
 }
+
+model Members {
+  id       String @unique() @default(cuid())
+  username String
+  point    Int    @default(200)
+}

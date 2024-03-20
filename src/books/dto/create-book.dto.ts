@@ -1,18 +1,18 @@
-import { ApiProperty } from "@nestjs/swagger";
+import { ApiProperty } from '@nestjs/swagger';
 
 export class CreateBookDto {
   @ApiProperty()
-  title: string
+  title: string;
 
   @ApiProperty()
-  writer: string
+  writer: string;
 
   @ApiProperty()
-  coverImage?: string
+  coverImage?: string;
 
   @ApiProperty()
-  point: number
+  point: number;
 
   @ApiProperty()
-  tags: string[]
+  tags: string[];
 }
