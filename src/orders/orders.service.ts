@@ -5,16 +5,31 @@ import { PrismaService } from 'nestjs-prisma';
 
 @Injectable()
 export class OrdersService {
-  constructor(private readonly prisma: PrismaService) {}
+  constructor(private readonly prisma: PrismaService) { }
 
   async create(data: CreateOrderDto) {
-    return await this.prisma.orders.create({
+    const book = await this.prisma.books.findUnique({
+      where: { id: data.bookId },
+      select: { point: true }
+    })
+    const createOrder = this.prisma.orders.create({
       data: {
         qty: data.qty,
         book_id: data.bookId,
         member_id: data.memberId,
       },
     });
+    const updateMemberPoint = this.prisma.members.update({
+      where: { id: data.memberId },
+      data: {
+        point: {
+          decrement: book.point
+        }
+      }
+    })
+
+    await Promise.all([createOrder, updateMemberPoint])
+    return 'ok'
   }
 
   async findAll() {
@@ -50,5 +65,14 @@ export class OrdersService {
     return await this.prisma.orders.delete({
       where: { id },
     });
+  }
+
+  async memberOders(id: string) {
+    return await this.prisma.orders.findMany({
+      where: { member_id: id },
+      include: {
+        book: true
+      }
+    })
   }
 }

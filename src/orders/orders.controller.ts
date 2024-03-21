@@ -13,7 +13,7 @@ import { UpdateOrderDto } from './dto/update-order.dto';
 
 @Controller('orders')
 export class OrdersController {
-  constructor(private readonly ordersService: OrdersService) {}
+  constructor(private readonly ordersService: OrdersService) { }
 
   @Post()
   create(@Body() createOrderDto: CreateOrderDto) {
@@ -38,5 +38,10 @@ export class OrdersController {
   @Delete(':id')
   remove(@Param('id') id: string) {
     return this.ordersService.remove(id);
+  }
+
+  @Get('member/:id')
+  getMemberOrders(@Param('id') id: string) {
+    return this.ordersService.memberOders(id);
   }
 }

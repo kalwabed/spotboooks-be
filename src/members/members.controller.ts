@@ -6,6 +6,7 @@ import {
   Patch,
   Param,
   Delete,
+  NotFoundException,
 } from '@nestjs/common';
 import { MembersService } from './members.service';
 import { CreateMemberDto } from './dto/create-member.dto';
@@ -13,11 +14,21 @@ import { UpdateMemberDto } from './dto/update-member.dto';
 
 @Controller('members')
 export class MembersController {
-  constructor(private readonly membersService: MembersService) {}
+  constructor(private readonly membersService: MembersService) { }
 
   @Post()
   create(@Body() createMemberDto: CreateMemberDto) {
     return this.membersService.create(createMemberDto);
+  }
+
+  @Post('login')
+  async login(@Body('username') username: string) {
+    const existingMember = await this.membersService.login(username)
+    if (!existingMember) {
+      throw new NotFoundException("Member is not found!")
+    }
+
+    return existingMember
   }
 
   @Get()
@@ -27,7 +38,7 @@ export class MembersController {
 
   @Get(':id')
   findOne(@Param('id') id: string) {
-    return this.membersService.findOne(+id);
+    return this.membersService.findOne(id);
   }
 
   @Patch(':id')

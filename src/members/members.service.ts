@@ -5,7 +5,7 @@ import { PrismaService } from 'nestjs-prisma';
 
 @Injectable()
 export class MembersService {
-  constructor(private readonly prisma: PrismaService) {}
+  constructor(private readonly prisma: PrismaService) { }
 
   async create(data: CreateMemberDto) {
     return await this.prisma.members.create({
@@ -17,8 +17,12 @@ export class MembersService {
     return await this.prisma.members.findMany();
   }
 
-  findOne(id: number) {
-    return `This action returns a #${id} member`;
+  async findOne(id: string) {
+    return await this.prisma.members.findUnique({
+      where: {
+        id
+      }
+    })
   }
 
   update(id: number, updateMemberDto: UpdateMemberDto) {
@@ -27,5 +31,15 @@ export class MembersService {
 
   remove(id: number) {
     return `This action removes a #${id} member`;
+  }
+
+  async login(username: string) {
+    const user = await this.prisma.members.findFirst({
+      where: {
+        username
+      }
+    })
+
+    return user
   }
 }
