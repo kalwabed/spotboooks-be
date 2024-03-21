@@ -23,11 +23,11 @@ export class BooksController {
   constructor(private readonly booksService: BooksService) { }
 
   @ApiOperation({
-    summary: 'Create a new group',
+    summary: 'Create a new book', 
   })
   @ApiResponse({
     status: 201,
-    description: 'The group has been successfully created.',
+    description: 'The book has been successfully created.',
   })
   // @ApiBearerAuth()
   @Post()
