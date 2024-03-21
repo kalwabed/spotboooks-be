@@ -21,11 +21,12 @@ export class MembersController {
     return this.membersService.create(createMemberDto);
   }
 
-  @Post('login')
-  async login(@Body('username') username: string) {
+  @Post('join')
+  async join(@Body('username') username: string) {
     const existingMember = await this.membersService.login(username)
     if (!existingMember) {
-      throw new NotFoundException("Member is not found!")
+      const newUser = await this.membersService.create({ username, point: 200 })
+      return newUser
     }
 
     return existingMember
